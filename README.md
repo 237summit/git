@@ -47,7 +47,8 @@ https://git-scm.com/download
   - 예를들어 이클립스의 settings 와 같은 것에는 사용자 정보가 저장될수 있다. 이런것이 commit되는 것을 예방한다.
   - ignore 할 파일 : 개발되는 프로젝트/프로그램에 따라 미리 구성해 놓는것이 좋다.
 
-        $ mkdir git_test
+        $ mkdir gitexam; cd gitexam
+	$ mkdir git_test
         $ cd git_test
         $ git init
         $ vim .gitignore
@@ -256,9 +257,12 @@ working dir의 파일들을 Staging Area로 추가한다.
 
 ### 4) commit
 StagingArea의 파일들을 repository 에 추가
-  git commit			실행시 default editor가 실행되어 message를 기록하고 저장할대 commit됨
-  git commit -m "커밋메시지"  	입력할 메시지가 적으면 command line에서 입력해서 사용
-  git commit -a -m "커밋메시지"	이전에 commit한 파일이 수정되었을때 add하지 않고 commit하는것
+실행시 default editor가 실행되어 message를 기록하고 저장할대 commit됨
+  git commit
+입력할 메시지가 적으면 command line에서 입력해서 사용
+  git commit -m "커밋메시지"
+이전에 commit한 파일이 수정되었을때 add하지 않고 commit하는것
+  git commit -a -m "커밋메시지"	
 				commit 했던 것을 다시 수정하면 workDir에 있고, add하지 않고 commit할수 있음.
 	$ git config core.autocrlf false
 	$ git rm --cached index.html about.html .gitignore
@@ -416,168 +420,392 @@ StagingArea의 파일들을 repository 에 추가
 	 1 file changed, 1 insertion(+)
 
 ### 5) log
-로그보기
+이전에 작성한 commit 이력을 조회하는 명령
+저장소에는 각 branch별로 commit 이력이 존재하는데, 그 commit 이력을 조회하는데 사용
+현재 branch에 commit 이력(title, 전체내용)을 출력
+	git log
+현재 branch의 commit_ID와 title message만 출력		
+	git log --oneline
+모든 branch의 commit이력을 출력. 여러개의 branch는 그래프로 표시.
+	git log --oneline --decorate -graph --all
+index.html 파일이 변경된 commit 이력만 출력	
+	git log -- index.html  	
+
+	$ mkdir git_log
+	$ cd git_log/
+	$ git init
+	Initialized empty Git repository in /home/smlee/gitexam/git_log/.git/
+
+	$ touch index.html
+	$ git add index.html
+	$ git commit -m 'Add index.html'
+
+	$ touch about.html
+	$ git add about.html
+	$ git commit -m 'Add about.html'
+
+	$ touch profile.html
+	$ git add profile.html
+	$ git commit -m "Add profile.html"
+
+	index.html을 수정하고 바로 commit(-a option사용)
+	$ echo "<html><h1>hello</h1></html>" > index.html
+	$ git commit -a -m "Add html tag"
+
+	로그보기
 	$ git log
-	commit 05badcc121999264c189fb1d483687feb8da99ab (HEAD -> master)
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:16:45 2020 +0900
+	commit 4f34458d105fd1413bfe310c27b0792f84e94b72
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:24:03 2020 +0900
 
 	    Add html tag
 
-	commit a164de87cf1d547db2131adce20a9e216019c031
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:15:55 2020 +0900
+	commit ccdf3ddb2081706784ec7156d59670aa58958d5c
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:23:14 2020 +0900
 
 	    Add profile.html
 
-	commit f9c8c4d56b5457052a4ff545de9cf9a7948277fd
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:15:13 2020 +0900
+	commit 07ce3588d3f9c1ea91fff53fd31cd8a51e95d9f8
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:18:38 2020 +0900
 
 	    Add about.html
 
-	commit a7e556f7f3e9f7cbe77ec353ee7994073a0aeb0e
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:14:55 2020 +0900
+	commit 0c4216b4c2d6b26e466dd6b2ad482d0f7701d0dc
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:17:51 2020 +0900
 
 	    Add index.html
 
-	$ git log --oneline
-	03743d0 (HEAD -> master) Add html tag
-	05badcc Add html tag
-	a164de8 Add profile.html
-	f9c8c4d Add about.html
-	a7e556f Add index.html
+	about.html 내용을 수정하고, commit해본다. 이때 상세 메시지를 함께 넣어보자.
+	$ echo "<html></html>" > about.html
+	$ git commit about.html
+	Modify about.html
 
-	$ git log --oneline --decorate --graph --all
-	* 03743d0 (HEAD -> master) Add html tag
-	* 05badcc Add html tag
-	* a164de8 Add profile.html
-	* f9c8c4d Add about.html
-	* a7e556f Add index.html
+	- Add html tag
 
-	$ git log -- index.html
-	commit 05badcc121999264c189fb1d483687feb8da99ab
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:16:45 2020 +0900
-
-	    Add html tag
-
-	commit a7e556f7f3e9f7cbe77ec353ee7994073a0aeb0e
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:14:55 2020 +0900
-
-	    Add index.html
-
-	$ vi index.html
-	$ git add index.html
-	$ git commit
-
-	Add 'world'
-
-	-
-	hello -> hello, world
-	#:wq
-	[master 5f69b0b] Add 'world'
-	 1 file changed, 3 insertions(+), 1 deletion(-)
-
+	편집기 저장후 git log 를 보면 상세 메시지도 출력됨이 확인된다.
 	$ git log
-	commit 5f69b0b53cb2b686371468a633bfa7eb5343002a (HEAD -> master)
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:22:56 2020 +0900
+	commit 0a02ae015865526fe33f6f5f11a9ac525937d15e
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:33:18 2020 +0900
 
-	    Add 'world'
+	    Modify about.html
 
-	    -
-	    hello -> hello, world
+	    - Add html tag
 
-	commit 03743d006b0ca60a05486cde44e30bbaee74cc66
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:18:19 2020 +0900
+	commit 4f34458d105fd1413bfe310c27b0792f84e94b72
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:24:03 2020 +0900
 
 	    Add html tag
+	...
 
+	--oneline 옵션은 현재 branch의 commit_ID와 title message만 출력된다.		
+	$ git log --oneline
+	4f34458 Add html tag
+	ccdf3dd Add profile.html
+	07ce358 Add about.html
+	0c4216b Add index.html
+
+	--oneline, --decorate 와 -graph, --all을 모두 사용하면 어떤 branch인지 표시된다.
+	$ git log --oneline --decorate --graph --all
+	* 4f34458 (HEAD, master) Add html tag
+	* ccdf3dd Add profile.html
+	* 07ce358 Add about.html
+	* 0c4216b Add index.html
+
+	특정 파일 index.html이 어떻게 변경되었는지 출력한다.
 	$ git log -- index.html
-	commit 5f69b0b53cb2b686371468a633bfa7eb5343002a (HEAD -> master)
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:22:56 2020 +0900
-
-	    Add 'world'
-
-	    -
-	    hello -> hello, world
-
-	commit 05badcc121999264c189fb1d483687feb8da99ab
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:16:45 2020 +0900
+	commit 4f34458d105fd1413bfe310c27b0792f84e94b72
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:24:03 2020 +0900
 
 	    Add html tag
 
-	commit a7e556f7f3e9f7cbe77ec353ee7994073a0aeb0e
-	Author: eonyak <seongmi.lee@gmail.com>
-	Date:   Thu Apr 9 20:14:55 2020 +0900
+	commit 0c4216b4c2d6b26e466dd6b2ad482d0f7701d0dc
+	Author: seongmi <seongmi.lee@gmail.com>
+	Date:   Sat Apr 18 15:17:51 2020 +0900
 
 	    Add index.html
-
 
 ### 6) diff
- : 이전 commit과 현재 디렉토리를 비교
 다른 커밋과 Working 디렉토리를 비교하는 명령
-git diff				현재 branch의 마지막 커밋과의 차이점 비교
-git diff [Commit ID]		특정 커밋과의 차이점 비교
-git diff [Commit ID] -- [파일경로]  	특정커밋과 특정 파일의 차이점 비교
+현재 branch의 마지막 커밋과 워킹 디렉토리의 차이점을 비교
+	git diff
+현재 branch나 다른 브랜치의 특정 커밋과  워킹 디렉토리의 차이점을 비교			
+	git diff [Commit ID]
+특정 커밋의 특정 파일이 현재 워킹 디렉토리의 그 파일이 어떻게 다른지 차이점 비교		
+	git diff [Commit ID] -- [파일경로]  	
+
+	$ echo "<html></html>" > profile.html
+	$ git status
+	# On branch master
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#   (use "git checkout -- <file>..." to discard changes in working directory)
+	#
+	#	modified:   profile.html
+	#
+	no changes added to commit (use "git add" and/or "git commit -a")
+
+	$ git diff
+	diff --git a/profile.html b/profile.html
+	index e69de29..18ecdcb 100644
+	--- a/profile.html
+	+++ b/profile.html
+	@@ -0,0 +1 @@
+	+<html></html>
+
+	$ git log --oneline 
+	0a02ae0 Modify about.html
+	4f34458 Add html tag
+	ccdf3dd Add profile.html
+	07ce358 Add about.html
+	0c4216b Add index.html
+
+	index.html을 수정하고, 0c4216b index.html과 어떻게 다른지 비교해본다.
+	$ vi index.html
+	<html>
+	       <head></head>>
+	</html>
+
+	수정하고 특정 commit id의 시점과 현재 워킹 디렉토리가 어떻게 다른지 확인
+	$ git diff 4f34458
+	diff --git a/about.html b/about.html
+	index e69de29..18ecdcb 100644
+	--- a/about.html
+	+++ b/about.html
+	@@ -0,0 +1 @@
+	+<html></html>
+	diff --git a/index.html b/index.html
+	index 18ecdcb..c7fddb3 100644
+	--- a/index.html
+	+++ b/index.html
+	@@ -1 +1,3 @@
+	-<html></html>
+	+<html>
+	+       <head></head>>
+	+</html>
+	diff --git a/profile.html b/profile.html
+	index e69de29..18ecdcb 100644
+	--- a/profile.html
+	+++ b/profile.html
+	@@ -0,0 +1 @@
+	+<html></html>
+
+	특정 파일의 특정 커밋과 현재 워킹 디렉토리와 다른점을 출력
+	$ git diff 4f34458 -- index.html
+	diff --git a/index.html b/index.html
+	index 18ecdcb..c7fddb3 100644
+	--- a/index.html
+	+++ b/index.html
+	@@ -1 +1,3 @@
+	-<html></html>
+	+<html>
+	+       <head></head>>
+	+</html>
 
 
 ### 7) branch :  개발을 병렬적으로 진행
-깃에서 사용하는 브랜치를 관리
+깃에서 사용하는 브랜치를 관리하기 위한 명령
 브랜치를 생성, 수정, 삭제하는 등을 하는 명령
 	git  branch <브랜치명>		생성
 	git branch -d <브랜치명>		삭제
 	git branch -m <브랜치명>		이름변경
 
-	[root@master git_branch]# git init
-	Reinitialized existing Git repository in /root/demo/git_branch/.git/
-	[root@master git_branch]# 
-	[root@master git_branch]# git branch develop
-	fatal: Not a valid object name: 'master'.
-	[root@master git_branch]# git branch develop
-	fatal: Not a valid object name: 'master'.
-	[root@master git_branch]# git log
-	fatal: bad default revision 'HEAD'
-	[root@master git_branch]# touch index.html
-	[root@master git_branch]# git add index.html
-	[root@master git_branch]# git commit -m "Add index.html"
-	[master (root-commit) 66559cf] Add index.html
-	 1 file changed, 0 insertions(+), 0 deletions(-)
-	 create mode 100644 index.html
-	[root@master git_branch]# git branch develop
-	[root@master git_branch]# git branch
+	$ mkdir branch_test
+	$ cd branch_test
+	$ git init
+	$ touch index.html
+	$ git add index.html
+	$ git commit -m "Add index.html"
+
+	develop 이라는 이름의 branch를 생성. commit이 없는 상태에서는 브랜치를 생성할수 없다.
+	$ git branch develop
+	$ git branch
+	  develop
+	* master    <- 현재 maser 브랜치에서 작업중
+
+	develop 브랜치 삭제
+	$ git branch -d develop 
+	$ git branch
+	* master
+
+	브랜치 이름 바꾸기 
+	$ git branch develop
+	$ git branch
 	  develop
 	* master
-	[root@master git_branch]# git branch -d develop 
-	Deleted branch develop (was 66559cf).
-	[root@master git_branch]# git branch
-	* master
-	[root@master git_branch]# 
-	[root@master git_branch]# git branch develop
-	[root@master git_branch]# git branch
-	  develop
-	* master
-	[root@master git_branch]# git branch -m develop test
-	[root@master git_branch]# git branch
+	$ git branch -m develop test
+	$ git branch
 	* master
 	  test
 
 
-### 8) Checkout
-branch를 이동하거나 특정파일을 내려받는 워킹 디렉토리의 소스를 특정 커밋으로 변경
 
-git checkout <브랜치명>
-git checkout <Commit ID>
-git checkout -- vkdl
+### 8) Checkout
+branch를 이동하거나 특정 파일을 내려 받은 워킹 디렉토리의 소스를 특정 커밋으로 변경
+특정 브랜치로 워킹 디렉토리를 변경
+	git checkout <브랜치명>
+특정 커밋으로 워킹 디렉토리 변경
+	git checkout <Commit ID>
+특정 파일을 해당 브랜치 또는 커밋 상태로 파일이 변경됨
+	git checkout -- [파일경로]
+
+	$ mkdir checkout_test
+	$ cd checkout_test
+	$ git init
+	$ touch index.html
+	$ git add index.html
+	$ git commit -m 'Add index.html'
+
+	develop, release 브랜치를 생성한다.
+	$ git branch develop
+	$ git branch release
+	$ git branch 
+	  develop
+	* master
+	  release
+
+	현재 작업디렉토리를 develop 브랜치로 변경해본다. 
+	$ git checkout develop 
+	Switched to branch 'develop'
+
+	develop 브랜치에서 index.html을 수정하고 commit
+	$ echo "<html></html>" > index.html
+	$ git add index.html
+	$ git commit -m 'Add html tag'
+	$ cat index.html
+	<html></html>
+
+	다시 master 브랜치로 이동해서 index.html을 보면? 아무 내용도 없다. index.html에 html 태그를 넣은것은 develop 브랜치이기 때문이다.
+	$ git checkout master 
+	$ cat index.html 
+
+	$ git checkout develop 
+	$ cat index.html 
+	<html></html>
+
+	$ git log --oneline --decorate --graph --all
+	* f0d4ded (HEAD, develop) Add html tag
+	* 82910df (release, master) Add index.html
+	release,master 브랜치는 둘다 82910df를 가르키고있고, develop은 html tag가 추가된 f0d4ded를 가르킨다.
+
+	release에서 특정 파일을 생성하고 commit했을때는?
+	$ git checkout release 
+	$ touch about.html
+	$ ls
+	about.html  index.html
+	$ git status 
+	# On branch release
+	# Untracked files:
+	#   (use "git add <file>..." to include in what will be committed)
+	#
+	#	about.html
+	nothing added to commit but untracked files present (use "git add" to track)
+	커밋되지 않았을때는 master에서도 release와 동일. commitID가 동일하니까.
+
+	$ git checkout master 
+	$ git status 
+	# On branch master
+	# Untracked files:
+	#   (use "git add <file>..." to include in what will be committed)
+	#
+	#	about.html
+	nothing added to commit but untracked files present (use "git add" to track)
+
+	다시 release로 돌아가서 commit하면 새로운 commitID로 release가 변경되어 master와는 달라진다.
+	$ git checkout release 
+	$ git add about.html
+	$ git commit -m 'Add about.html'
+
+	master에서는 about.html이 보이지 않음.
+		master(index.html)
+	    +------------------+-------------------+
+	    |                                 		|
+	  develop(f0d4ded)             release(07f39a5) 
+	 index.html 수정(태그)         about.html 생성
+
+	$ git checkout master 
+	$ ls
+	index.html
+
+	$ git log --oneline --decorate --graph --all
+	* 07f39a5 (release) Add about.html
+	| * f0d4ded (develop) Add html tag
+	|/  
+	* 82910df (HEAD, master) Add index.html
+
+	특정 commit ID로 이동해보기
+	master 브랜치에서 index.html을 수정하고 commit하면 commitID가 생성된다.
+	$ git checkout master 
+	$ echo "<html>
+	>    <head></head>
+	> </html>" > index.html
+	$ git add index.html
+	$ git commit -m "Add html tag"
+
+	$ git log --oneline
+	f4e59bb Add html tag
+	82910df Add index.html
+
+	index.html 수정하기전 commitID(82910df)로 이동해서 index.html을 확인하면 내용이 없다.
+	$ git checkout 82910df
+	$ git status
+	# HEAD detached at 82910df
+	nothing to commit, working directory clean
+	$ cat index.html 
+	$ git log --oneline
+	82910df Add index.html
+
+	다른 commitID를 조회하고 이동해보다.
+	$ git log --oneline --all
+	f4e59bb Add html tag
+	07f39a5 Add about.html
+	f0d4ded Add html tag
+	82910df Add index.html
+
+	$ git checkout f4e59bb
+	$ cat index.html 
+	<html>
+	   <head></head>
+	</html>
+
+	$ git checkout master 
+	Switched to branch 'master'
+	$ git log --oneline --all --decorate --graph 
+	* f4e59bb (HEAD, master) Add html tag
+	| * 07f39a5 (release) Add about.html
+	|/  
+	| * f0d4ded (develop) Add html tag
+	|/  
+	* 82910df Add index.html
+				  (f4e59bb Add html tag index.html)
+		master(82910df  index.html)
+	    +------------------+-------------------+
+	    |                                 		|
+	  develop(f0d4ded)             release(07f39a5) 
+	 index.html 수정(태그)         about.html 생성
+
+
+	특정 파일을 특정 브랜치의 특정 커밋상태로 변경해보기
+	$ git log --oneline 
+	f4e59bb Add html tag
+	82910df Add index.html
+
+	$ git checkout  82910df -- index.html
+	$ cat index.html 
+	$ git checkout  f4e59bb -- index.html
+	$ cat index.html 
+	<html>
+	   <head></head>
+	</html>
 
 ### 9) Tag
 branch와 유사하나, branch는 파일이나 branch변경되면 마지막 변경을 추적. 
 
 ### 10) Merge
-병렬적으로 정의한 branch를 하나의 branch로 병합
+다른 두개의 소스를 병합하는 명령
+같은 파일에 대해 서로다른 브랜치에서 동일 내용을 수정하여 충돌이 발생한 경우의 예
