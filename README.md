@@ -13,7 +13,7 @@ Git 자체는 **오픈 소스**이며 저장소는 [https://github.com/git/git](
     
 -   [생활코딩](https://namu.wiki/w/%EC%83%9D%ED%99%9C%EC%BD%94%EB%94%A9 "생활코딩")  -  [Git1](https://www.youtube.com/playlist?list=PLuHgQVnccGMCNJESahrVV-uYGMNYK_vMf "https://www.youtube.com/playlist?list=PLuHgQVnccGMCNJESahrVV-uYGMNYK_vMf"),  [Git2](https://www.youtube.com/playlist?list=PLuHgQVnccGMCNJESahrVV-uYGMNYK_vMf "https://www.youtube.com/playlist?list=PLuHgQVnccGMCNJESahrVV-uYGMNYK_vMf")
     
--   [progit]([https://www.oss.kr/oss_guide/show/2c619df7-40d6-43de-af7a-2b0db6c16538](https://www.oss.kr/oss_guide/show/2c619df7-40d6-43de-af7a-2b0db6c16538) "(https://www.oss.kr/oss_guide/show/2c619df7-40d6-43de-af7a-2b0db6c16538)")  - GitHub의 CIO가 직접 쓴 책을 번역한 자료.
+-   [progit](https://www.oss.kr/oss_guide/show/2c619df7-40d6-43de-af7a-2b0db6c16538) - GitHub의 CIO가 직접 쓴 책을 번역한 자료.
 
 # git 사용하기
 
