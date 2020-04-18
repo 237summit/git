@@ -169,7 +169,8 @@ Untracked files에 .gitignore, index.html이 생성되었고, "git add <file>...
                               |------- commit -->
 
 
-add : working dir의 파일들을 Staging Area로 추가한다.
+### 3) add
+working dir의 파일들을 Staging Area로 추가한다.
 	git add 파일명
 	git add index.html
 	
@@ -253,7 +254,7 @@ add : working dir의 파일들을 Staging Area로 추가한다.
 	        new file:   index.html
 
 
-### 3) commit
+### 4) commit
 StagingArea의 파일들을 repository 에 추가
   git commit			실행시 default editor가 실행되어 message를 기록하고 저장할대 commit됨
   git commit -m "커밋메시지"  	입력할 메시지가 적으면 command line에서 입력해서 사용
@@ -414,7 +415,7 @@ StagingArea의 파일들을 repository 에 추가
 	[master 05badcc] Add html tag
 	 1 file changed, 1 insertion(+)
 
-### 4) log
+### 5) log
 로그보기
 	$ git log
 	commit 05badcc121999264c189fb1d483687feb8da99ab (HEAD -> master)
@@ -519,7 +520,7 @@ StagingArea의 파일들을 repository 에 추가
 	    Add index.html
 
 
-### 5) diff
+### 6) diff
  : 이전 commit과 현재 디렉토리를 비교
 다른 커밋과 Working 디렉토리를 비교하는 명령
 git diff				현재 branch의 마지막 커밋과의 차이점 비교
@@ -527,7 +528,7 @@ git diff [Commit ID]		특정 커밋과의 차이점 비교
 git diff [Commit ID] -- [파일경로]  	특정커밋과 특정 파일의 차이점 비교
 
 
-### 6) branch :  개발을 병렬적으로 진행
+### 7) branch :  개발을 병렬적으로 진행
 깃에서 사용하는 브랜치를 관리
 브랜치를 생성, 수정, 삭제하는 등을 하는 명령
 	git  branch <브랜치명>		생성
@@ -568,15 +569,15 @@ git diff [Commit ID] -- [파일경로]  	특정커밋과 특정 파일의 차이
 	  test
 
 
-### 7) Checkout
+### 8) Checkout
 branch를 이동하거나 특정파일을 내려받는 워킹 디렉토리의 소스를 특정 커밋으로 변경
 
 git checkout <브랜치명>
 git checkout <Commit ID>
 git checkout -- vkdl
 
-### 8) Tag
+### 9) Tag
 branch와 유사하나, branch는 파일이나 branch변경되면 마지막 변경을 추적. 
 
-### 9) Merge
+### 10) Merge
 병렬적으로 정의한 branch를 하나의 branch로 병합
